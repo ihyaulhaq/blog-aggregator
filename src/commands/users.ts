@@ -1,5 +1,5 @@
 import { setUser } from "src/config";
-import { createUser, getUser } from "src/lib/db/queries/users";
+import { createUser, deleteAllUser, getUser } from "src/lib/db/queries/users";
 
 export async function handlerLogin(cmdName: string, ...args: string[]) {
   if (args.length !== 1) {
@@ -22,19 +22,35 @@ export async function handlerLogin(cmdName: string, ...args: string[]) {
 
 export async function handlerRegister(cmdName: string, ...args: string[]) {
   if (args.length !== 1) {
-    console.log(`must include name`);
-    throw new Error(`must include name`);
+    throw new Error(`usage: ${cmdName} <name>`);
+    //   console.log(`must include name`);
+    //   throw new Error(`must include name`);
   }
 
   const name = args[0];
-  const user = await getUser(name);
-  if (user.length > 0) {
-    console.log("user Exist");
-    throw new Error("user Exist");
-  }
-
+  // const user = await getUser(name);
   const createdUser = await createUser(name);
+  if (!createdUser) {
+    throw new Error(`User ${name} not found`);
+  } // if (user.length > 0) {
+  //   console.log("user Exist");
+  //   throw new Error("user Exist");
+  // }
+  //
   setUser(name);
   console.log(createdUser);
   console.log("user registred");
+}
+
+export async function handleDelete(cmdName: string) {
+  // if (args.length !== 1) {
+  //   // console.log(`usage: ${cmdName} <name>`);
+  //   throw new Error(`usage: ${cmdName} <name>`);
+  // }
+  try {
+    await deleteAllUser();
+    console.log("User deleted successfully!");
+  } catch (error) {
+    throw new Error("cant delete users row something wrong ");
+  }
 }

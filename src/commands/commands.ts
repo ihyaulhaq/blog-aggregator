@@ -25,9 +25,9 @@ export async function runCommand(
     throw new Error("Command not found");
   }
 
-  try {
-    await handler(cmdName, ...args);
-  } catch (err) {
-    throw new Error("error");
-  }
+  // try {
+  await handler(cmdName, ...args);
+  // } catch (err) {
+  //   throw new Error("error");
+  // }
 }
