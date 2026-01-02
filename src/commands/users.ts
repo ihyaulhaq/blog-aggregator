@@ -1,11 +1,40 @@
 import { setUser } from "src/config";
+import { createUser, getUser } from "src/lib/db/queries/users";
 
-export function handlerLogin(cmdName: string, ...args: string[]) {
-  if (args.length === 0) {
+export async function handlerLogin(cmdName: string, ...args: string[]) {
+  if (args.length !== 1) {
+    // console.log(`usage: ${cmdName} <name>`);
     throw new Error(`usage: ${cmdName} <name>`);
   }
 
-  setUser(args[0]);
+  const userName = args[0];
+  const user = await getUser(userName);
+
+  if (!user) {
+    // console.log("user not register");
+    throw new Error("user not register");
+  }
+
+  setUser(user.name);
 
   console.log("user has been set");
+}
+
+export async function handlerRegister(cmdName: string, ...args: string[]) {
+  if (args.length !== 1) {
+    console.log(`must include name`);
+    throw new Error(`must include name`);
+  }
+
+  const name = args[0];
+  const user = await getUser(name);
+  if (user.length > 0) {
+    console.log("user Exist");
+    throw new Error("user Exist");
+  }
+
+  const createdUser = await createUser(name);
+  setUser(name);
+  console.log(createdUser);
+  console.log("user registred");
 }
