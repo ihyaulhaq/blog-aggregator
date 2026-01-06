@@ -1,5 +1,11 @@
-import { setUser } from "src/config";
-import { createUser, deleteAllUser, getUser } from "src/lib/db/queries/users";
+import { name } from "drizzle-orm";
+import { readConfig, setUser } from "src/config";
+import {
+  createUser,
+  deleteAllUser,
+  getAllUser,
+  getUser,
+} from "src/lib/db/queries/users";
 
 export async function handlerLogin(cmdName: string, ...args: string[]) {
   if (args.length !== 1) {
@@ -53,4 +59,16 @@ export async function handleDelete(cmdName: string) {
   } catch (error) {
     throw new Error("cant delete users row something wrong ");
   }
+}
+
+export async function handleGetUser(cmdName: string) {
+  const users = await getAllUser();
+  const userLogIn = readConfig().currentUserName;
+  users.forEach((user) => {
+    if (userLogIn === user.name) {
+      console.log(`* ${user.name} (current)`);
+    } else {
+      console.log(`* ${user.name}`);
+    }
+  });
 }
