@@ -3,12 +3,8 @@ import {
   registerCommand,
   runCommand,
 } from "./commands/commands";
-import {
-  handleDelete,
-  handleGetUser,
-  handlerLogin,
-  handlerRegister,
-} from "./commands/users";
+import { handleDelete } from "./commands/reset";
+import { handleGetUser, handlerLogin, handlerRegister } from "./commands/users";
 
 async function main() {
   const args = process.argv.slice(2);

@@ -3,7 +3,7 @@ import { readConfig, setUser } from "src/config";
 import {
   createUser,
   deleteAllUser,
-  getAllUser,
+  getUsers,
   getUser,
 } from "src/lib/db/queries/users";
 
@@ -48,21 +48,8 @@ export async function handlerRegister(cmdName: string, ...args: string[]) {
   console.log("user registred");
 }
 
-export async function handleDelete(cmdName: string) {
-  // if (args.length !== 1) {
-  //   // console.log(`usage: ${cmdName} <name>`);
-  //   throw new Error(`usage: ${cmdName} <name>`);
-  // }
-  try {
-    await deleteAllUser();
-    console.log("User deleted successfully!");
-  } catch (error) {
-    throw new Error("cant delete users row something wrong ");
-  }
-}
-
 export async function handleGetUser(cmdName: string) {
-  const users = await getAllUser();
+  const users = await getUsers();
   const userLogIn = readConfig().currentUserName;
   users.forEach((user) => {
     if (userLogIn === user.name) {
