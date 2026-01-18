@@ -11,7 +11,6 @@ export function registerCommand(
   handler: CommandHandler,
 ) {
   registry[cmdName] = handler;
-  // console.log(cmdName);
 }
 
 export async function runCommand(
@@ -25,9 +24,5 @@ export async function runCommand(
     throw new Error("Command not found");
   }
 
-  // try {
   await handler(cmdName, ...args);
-  // } catch (err) {
-  //   throw new Error("error");
-  // }
 }

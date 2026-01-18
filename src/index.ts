@@ -1,3 +1,4 @@
+import { hanldeArr } from "./commands/agg";
 import {
   CommandRegistry,
   registerCommand,
@@ -22,6 +23,7 @@ async function main() {
   registerCommand(commandsRegistry, "register", handlerRegister);
   registerCommand(commandsRegistry, "reset", handleDelete);
   registerCommand(commandsRegistry, "users", handleGetUser);
+  registerCommand(commandsRegistry, "agg", hanldeArr);
 
   try {
     await runCommand(commandsRegistry, cmdName, ...cmdArgs);
