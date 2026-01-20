@@ -33,7 +33,7 @@ export async function handlerRegister(cmdName: string, ...args: string[]) {
   console.log("user registred");
 }
 
-export async function handleGetUser(cmdName: string) {
+export async function handleGetUser(_: string) {
   const users = await getUsers();
   const userLogIn = readConfig().currentUserName;
   users.forEach((user) => {
