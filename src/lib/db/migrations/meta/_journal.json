@@ -15,6 +15,13 @@
       "when": 1768883669279,
       "tag": "0001_heavy_rage",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768893393604,
+      "tag": "0002_young_blizzard",
+      "breakpoints": true
     }
   ]
 }
