@@ -7,6 +7,7 @@ import {
 import {
   handleCreateFeedFollow,
   handleGetUserFeedFollows,
+  handleUnfollowingFeed,
 } from "./commands/feedFollow";
 import { handleAddFeed, handleGetAllFeeds } from "./commands/feeds";
 import { handleDelete } from "./commands/reset";
@@ -46,6 +47,12 @@ async function main() {
     "following",
     middlewareLoggedIn(handleGetUserFeedFollows),
   );
+  registerCommand(
+    commandsRegistry,
+    "unfollow",
+    middlewareLoggedIn(handleUnfollowingFeed),
+  );
+
   try {
     await runCommand(commandsRegistry, cmdName, ...cmdArgs);
   } catch (err) {

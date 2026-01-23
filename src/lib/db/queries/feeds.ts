@@ -29,6 +29,11 @@ export async function getFeedByURL(url: string): Promise<Feed | undefined> {
   return result;
 }
 
+export async function getFeedByName(name: string): Promise<Feed | undefined> {
+  const [result] = await db.select().from(feeds).where(eq(feeds.name, name));
+  return result;
+}
+
 export async function deleteAllFeeds() {
   await db.delete(feeds);
 }
