@@ -1,24 +1,19 @@
-import { readConfig } from "src/config";
 import { createFeed, getAllFeeds } from "src/lib/db/queries/feeds";
-import { getUser, getUserById } from "src/lib/db/queries/users";
+import { getUserById } from "src/lib/db/queries/users";
 import { Feed, User } from "src/lib/db/schema";
-import { handleCreateFeedFollow, handleGetUserFeedFollows } from "./feedFollow";
+import { handleGetUserFeedFollows } from "./feedFollow";
 import { createFeedFollow } from "src/lib/db/queries/feedFollow";
 
-export async function handleAddFeed(cmdName: string, ...args: string[]) {
+export async function handleAddFeed(
+  cmdName: string,
+  user: User,
+  ...args: string[]
+) {
   if (args.length !== 2) {
     throw new Error(`usage: ${cmdName} <name> <url>`);
   }
-
-  const userLogin = readConfig().currentUserName;
-  const user = await getUser(userLogin);
   const feedName = args[0];
   const url = args[1];
-
-  if (!user) {
-    throw new Error("user not found");
-  }
-
   const res = await createFeed(feedName, url, user.id);
 
   if (!res) {
@@ -27,7 +22,7 @@ export async function handleAddFeed(cmdName: string, ...args: string[]) {
 
   printFeed(res, user);
   await createFeedFollow(user.id, res.id);
-  await handleGetUserFeedFollows();
+  await handleGetUserFeedFollows(cmdName, user);
 }
 
 export async function handleGetAllFeeds(_: string) {
